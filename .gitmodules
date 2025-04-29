@@ -1,0 +1,3 @@
+[submodule "dashboard/ui"]
+	path = dashboard/ui
+	url = https://github.com/PR0F3S50R/Real-Time-Network-Analysis-Tool.git
