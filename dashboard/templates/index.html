@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LLM Traffic Monitor</title>
+    <style>
+        body { font-family: sans-serif; padding: 2rem; background: #f4f4f4; }
+        table { width: 100%; border-collapse: collapse; background: white; }
+        th, td { padding: 1rem; border: 1px solid #ccc; }
+        tr.malicious { background: #f8d7da; }
+    </style>
+</head>
+<body>
+    <h1>Real-Time LLM Threat Monitor</h1>
+    <table id="logTable">
+        <thead>
+            <tr><th>Input</th><th>Verdict</th><th>Reason</th></tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        async function fetchData() {
+            const response = await fetch("/data");
+            const data = await response.json();
+            const tbody = document.querySelector("#logTable tbody");
+            tbody.innerHTML = "";
+            data.slice().reverse().forEach(row => {
+                const tr = document.createElement("tr");
+                if (row.verdict === "malicious") tr.classList.add("malicious");
+                tr.innerHTML = `<td>${row.log}</td><td>${row.verdict}</td><td>${row.reason}</td>`;
+                tbody.appendChild(tr);
+            });
+        }
+        setInterval(fetchData, 2000);
+        fetchData();
+    </script>
+</body>
+</html>
